@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login con JWT</title>
+</head>
+<body>
+    <h2>Login</h2>
+    <form id="loginForm">
+        <input type="text" id="email" placeholder="Correo electrónico" required>
+        <input type="password" id="password" placeholder="Contraseña" required>
+        <button type="submit">Iniciar Sesión</button>
+    </form>
+
+    <h3 id="status"></h3> <!-- Mensaje de estado -->
+
+    <h2>Obtener Perfil</h2>
+    <button id="getProfile">Ver Perfil</button>
+
+    <script>
+        const API_URL = "http://localhost:3000"; // Ajusta la URL según tu servidor
+
+        // Manejar el Login
+        document.getElementById("loginForm").addEventListener("submit", async (e) => {
+            alert("dentro del form")
+            e.preventDefault();
+            const userName = document.getElementById("email").value;
+            const userPassword = document.getElementById("password").value;
+            alert(`user: ${userName} pass: ${userPassword}`)
+
+            try {
+                const res = await fetch(`${API_URL}/login`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ userName, userPassword })
+
+                });
+                alert(`Esta es la res: ${res}`);
+                
+                const data = await res.json();
+                alert(`Esta es la data: ${data}`);
+                if (res.ok) {
+                    localStorage.setItem("token", data.token); // ✅ Guardar token en localStorage
+                    document.getElementById("status").innerText = "Login exitoso, token guardado!";
+                } else {
+                    document.getElementById("status").innerText = "Error: " + data.msg;
+                }
+            } catch (error) {
+                console.error("Error en la solicitud", error);
+            }
+        });
+
+        // Obtener perfil protegido
+        document.getElementById("getProfile").addEventListener("click", async () => {
+            const token = localStorage.getItem("token");
+            if (!token) {
+                alert("No hay token, inicia sesión primero.");
+                return;
+            }
+
+            try {
+                const res = await fetch(`${API_URL}/profile`, {
+                    method: "GET",
+                    headers: { "Authorization": `Bearer ${token}` }
+                });
+
+                const data = await res.json();
+                if (res.ok) {
+                    alert(`Usuario: ${data.username}, Email: ${data.email}`);
+                } else {
+                    alert("Error: " + data.msg);
+                }
+            } catch (error) {
+                console.error("Error en la solicitud", error);
+            }
+        });
+    </script>
+</body>
+</html>
