@@ -3,7 +3,7 @@ import { Request, Response } from "express";
 import * as fs from "fs/promises";
 
 interface Credentials {
-  id: number;
+  id: number; 
   usernae: string;
   userPassword: string;
   tokens: string[];

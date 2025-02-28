@@ -8,7 +8,7 @@ interface AuthRequest extends Request{
 const JWT_SECRET = process.env.JWT_SECRET|| "dafault_secret";
 
 export const authMiddelware = (req: AuthRequest, res:Response, next:NextFunction)=>{
-    const token = req.header("Autorization")?.split("")[1];
+    const token = req.header("Authorization")?.split(" ")[1];
     if(!token){
         res.status(401).json({msg:"Acceso denegado"});
         return;
@@ -16,7 +16,7 @@ export const authMiddelware = (req: AuthRequest, res:Response, next:NextFunction
     try{
         const decoded = jwt.verify(token, JWT_SECRET);
         req.user = decoded;
-        return next();
+        next();
     }catch(error){
         res.status(401).json({msg:"Token Invalido"});
         return;

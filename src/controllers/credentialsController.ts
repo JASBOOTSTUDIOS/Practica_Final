@@ -52,8 +52,15 @@ export async function getCredentialsUserByEmail(userEmail:string):Promise<Creden
 }
 // Obtener Usuario por User Name.
 export async function getCredentialsUserByUserName(userName:string):Promise<CredentialUser | undefined>{
+  try{
   const credentials = await readCredentialUser();
-  return credentials.find((credential)=> credential.userName === userName);
+  const returnCredential = credentials.find((credential)=> credential.userName === userName);
+  if(!returnCredential) return undefined;
+  return returnCredential;
+  }catch(error){
+    return undefined;
+  }
+
 }
 
 // Login

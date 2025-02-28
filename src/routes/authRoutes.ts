@@ -6,6 +6,7 @@ import {
   createCredentialsUserModel,
   updateCredentialsUserModel,
   Login,
+  getCredentialsUserByIdModel,
 } from "../models/credentialUsersModel";
 import path from "path";
 
@@ -16,7 +17,7 @@ route.use("/", express.static(path.join(__dirname, "../public")));
 route.use("/loged", express.static(path.join(__dirname, "../public/loged")));
 
 // Ruta De Login.
-route.get("/profile", authMiddelware, getAllCredentialsUserModel);
+route.get("/profile", authMiddelware, getCredentialsUserByIdModel);
 route.post("/login", Login);
 route.post("/register", createCredentialsUserModel);
 route.put("/update", updateCredentialsUserModel);
