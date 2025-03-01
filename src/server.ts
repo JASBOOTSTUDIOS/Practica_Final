@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import route from './routes/authRoutes';
 import userRoter from './routes/userRouter';
+import viewsRouter from './routes/views';
 
 
 dotenv.config();
@@ -14,6 +15,7 @@ app.use(cors());
 // Rutas.
 app.use('/users', userRoter);
 app.use('/',route);
+app.use('/views',viewsRouter);
 
 
 const PORT = process.env.PORT_SERVE || 3000;
