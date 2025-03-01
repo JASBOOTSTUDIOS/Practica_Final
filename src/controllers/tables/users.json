@@ -1,15 +1,16 @@
 [
   {
     "id": 1,
-    "nombres": "Juan Miguel",
-    "apellidos": "Todman Manzueta",
+    "nombres": "Jazmin Cristina",
+    "apellidos": "Duarte Guillen",
+    "genero": "Femenino",
     "edad": 37,
     "cedula": "40235545859",
     "telefono": "8095568995",
     "fechaDeNacimiento": "06/07/1987",
     "userStatus": true,
     "delete_at": "",
-    "update_at": "",
+    "update_at": "Fri Feb 28 2025 22:18:59 GMT-0400 (Atlantic Standard Time)",
     "create_at": "Fri Feb 28 2025 19:59:02 GMT-0400 (hora estándar del Atlántico)"
   }
 ]

@@ -5,6 +5,7 @@ interface User {
     id:number;
     nombres:string;
     apellidos: string;
+    genero:string;
     edad:number;
     cedula: string;
     telefono:string;
@@ -63,13 +64,14 @@ const users = await readUsers();
 return users.find((user)=> user.id === id); 
 };
 
-export async function createUserController(nombres:string,apellidos:string,edad:number,cedula:string,telefono:string,fechaDeNacimiento:string):Promise<User | undefined>{
+export async function createUserController(nombres:string,apellidos:string,genero:string,edad:number,cedula:string,telefono:string,fechaDeNacimiento:string):Promise<User | undefined>{
     const users = await readUsers();
     
     const newUser: User ={
         id: users.length ? Math.max(...users.map((u)=> u.id)) +1 : 1,
         nombres,
         apellidos,
+        genero,
         edad,
         cedula,
         telefono,
@@ -83,15 +85,17 @@ export async function createUserController(nombres:string,apellidos:string,edad:
     await writeUser(users);
 return newUser;
 };
-export async function updateUserByIdController(id:number,nombres:string,apellidos:string,edad:number,cedula:string,telefono:string,fechaDeNacimiento:string):Promise<User | null>{
+
+export async function updateUserByIdController(id:number,nombres:string, apellidos:string,genero:string,edad:number,cedula:string,telefono:string,fechaDeNacimiento:string):Promise<User | null>{
     const users = await readUsers();
     const userIdex = users.findIndex((user)=> user.id === id);
     if(userIdex === -1) return null;
     const create_at = users[userIdex].create_at;
     const updateUser: User ={
-        id: users.length ? Math.max(...users.map((u)=> u.id)) +1 : 1,
+        id,
         nombres,
         apellidos,
+        genero,
         edad,
         cedula,
         telefono,
