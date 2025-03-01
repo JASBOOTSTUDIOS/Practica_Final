@@ -2,11 +2,10 @@ const API_URL = "http://localhost:3000"; // Ajusta la URL según tu servidor
 
 // Manejar el Login
 document.getElementById("loginForm").addEventListener("submit", async (e) => {
-    // alert("dentro del form")
     e.preventDefault();
     const userName = document.getElementById("email").value;
     const userPassword = document.getElementById("password").value;
-    // alert(`user: ${userName} pass: ${userPassword}`)
+
     
     try {
         const res = await fetch(`${API_URL}/login`, {
@@ -15,7 +14,6 @@ document.getElementById("loginForm").addEventListener("submit", async (e) => {
             body: JSON.stringify({ userName, userPassword })
             
         });
-        // alert(`Esta es la res: ${res.json()}`);
         
         const data = await res.json();
         // alert(`Esta es la data: ${data.msg}`); 
