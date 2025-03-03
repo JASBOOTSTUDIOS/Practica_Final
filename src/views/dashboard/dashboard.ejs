@@ -1,0 +1,25 @@
+<script>
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+        window.location.href = "/login"; // Redirigir si no hay token
+    } else {
+        fetch("/views/dashboard", {
+            method: "GET",
+            headers: { "Authorization": `Bearer ${token}` }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert("Sesion Iniciada");
+            } else {
+                localStorage.removeItem("token");
+                window.location.href = "/views/login";
+            }
+        });
+    }
+</script>
+<a onclick="viewDashboard('/views')" class="btn btn-outline-primary">Hola</a>
+<h1>Dashboard</h1>
+
+
