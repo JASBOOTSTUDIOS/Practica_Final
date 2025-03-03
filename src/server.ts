@@ -16,7 +16,7 @@ app.use("/users", userRoter);
 app.use("/", route);
 // app.use("/views", viewsRouter);
 
-const PORT = process.env.PORT_SERVE || 3000;
+const PORT = process.env.PORT_SERVE || 3001;
 app.listen(PORT, () => {
   console.log(`API Corriendo en el puerto http://localhost:${PORT}`);
 });

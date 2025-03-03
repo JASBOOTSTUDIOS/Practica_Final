@@ -13,6 +13,7 @@ import { generatteToken } from "../utils/jwt";
 export async function Login(req: Request, res: Response) {
   try {
     const { userName, userPassword } = req.body;
+    
     const comparePass = await getCredentialsUserByUserName(userName);
     if (!comparePass) {
       res.status(400).json({ msg: "Usuario no encontrado" });
