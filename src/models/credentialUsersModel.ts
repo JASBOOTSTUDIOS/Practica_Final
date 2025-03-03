@@ -9,8 +9,10 @@ import {
 } from "../controllers/credentialsController";
 import bcrypt from "bcryptjs";
 import { generatteToken } from "../utils/jwt";
+import { AuthRequest } from "../middelware/authMiddelware";
 
-export async function Login(req: Request, res: Response) {
+
+export async function Login(req: AuthRequest, res: Response) {
   try {
     const { userName, userPassword } = req.body;
     
@@ -27,7 +29,8 @@ export async function Login(req: Request, res: Response) {
     if (!isMatch) res.status(400).json({ msg: "Contraseña Incorrecta." });
     const token = generatteToken(comparePass?.id!);
     res.status(200).json({
-      msg: "User Logueado con exito!",
+      verifiData:req.user,
+      // msg: "User Logueado con exito!",
       id:comparePass?.id,
       token: token,
     });
