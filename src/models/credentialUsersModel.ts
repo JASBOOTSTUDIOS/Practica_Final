@@ -23,10 +23,9 @@ export async function Login(req: AuthRequest, res: Response) {
     }
     const isMatch = await bcrypt.compare(
       userPassword,  
-      comparePass?.userPassword!
+      comparePass.userPassword
     );
-
-    if (!isMatch) res.status(400).json({ msg: "Contraseña Incorrecta." });
+    if (!isMatch) {res.status(400).json({ msg: "Usuario y o Contraseña Incorrecta." }); return;};
     const token = generatteToken(comparePass?.id!);
     res.status(200).json({
       verifiData:req.user,
