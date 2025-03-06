@@ -18,6 +18,6 @@ route.use("/", express.static(path.join(__dirname, "../public")));
 route.get("/profile", authMiddelware, getCredentialsUserByIdModel);
 route.post("/login", Login);
 route.post("/register", authMiddelware, createCredentialsUserModel);
-route.put("/update", updateCredentialsUserModel);
+route.put("/update", authMiddelware, updateCredentialsUserModel);
 
 export default route;
