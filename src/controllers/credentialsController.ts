@@ -21,6 +21,7 @@ async function readCredentialUser(): Promise<CredentialUser[]> {
     return JSON.parse(dataUser) as CredentialUser[];
   } catch (error) {
     console.log("No funciono.");
+    console.log(error);
     return [];
   }
 }

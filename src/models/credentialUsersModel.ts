@@ -41,10 +41,15 @@ export async function Login(req: AuthRequest, res: Response) {
 }
 // Trae todos los usuarios.
 export async function getAllCredentialsUserModel(req: Request, res: Response) {
-  const data = await getAllCredentialsUser();
-  if (!data) res.status(204).json({ msg: "No Hay Usuarios Registrados." });
-  res.status(200).send(data);
-  return;
+  try{
+    const data = await getAllCredentialsUser();
+    if (!data) res.status(204).json({ msg: "No Hay Usuarios Registrados." });
+    res.status(200).send(data);
+    return;
+
+  }catch(error){
+    res.status(400).json({msg:"Error al extraer todos los datos.",error});
+  }
 }
 
 // Traer usuario por id

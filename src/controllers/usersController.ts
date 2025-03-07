@@ -27,7 +27,7 @@ async function readUsers(): Promise<User[]>{
         return [];
     }
 };
-
+ 
 // Guardando el JSON
 async function writeUser(user: User[]): Promise<void> {
     try{
