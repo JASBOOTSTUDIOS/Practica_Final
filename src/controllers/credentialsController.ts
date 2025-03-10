@@ -3,6 +3,9 @@ import { resolve } from "path";
 import bcrypt from "bcryptjs";
 interface CredentialUser {
   id: number;
+  nombres:string;
+  apellidos:string 
+  telefono:string;
   userName: string;
   userEmail:string;
   userPassword: string;
@@ -72,13 +75,16 @@ export async function LoginController(userName:string, userPassword:string){
 }
 
 // Creando Nueva Credenciales.
-export async function createCredentialsUser(userName:string,userEmail:string, userPassword:string):Promise<CredentialUser>{
+export async function createCredentialsUser( nombres:string, apellidos:string, telefono:string, userName:string, userEmail:string, userPassword:string):Promise<CredentialUser>{
   const userCredential = await readCredentialUser();
   const hashedPassword = await bcrypt.hash(userPassword,10);
   const newUserCredential = {
     id: userCredential.length ? Math.max(...userCredential.map((u)=> u.id)) + 1 : 1,
-    userName:userName,
-    userEmail:userEmail,
+    nombres,
+    apellidos,
+    telefono,
+    userName,
+    userEmail,
     userPassword: hashedPassword,
     token:"",
     userStatus:true,
@@ -92,7 +98,7 @@ export async function createCredentialsUser(userName:string,userEmail:string, us
 }
 
 // Actualizar una credencial por ID 
-export async function updateCredemtialsUser(id:number, userName:string, userEmail:string, userPassword:string):Promise<CredentialUser | null>{
+export async function updateCredemtialsUser(id:number,nombres:string, apellidos:string, telefono:string, userName:string, userEmail:string,  userPassword:string, token:string ,userPasswordMod?:string):Promise<CredentialUser | null>{
   const this_crendential = await getCredentialsUserById(id);
   const credentials = await readCredentialUser();
   const hashedPassword = await bcrypt.hash(userPassword,10);
@@ -101,10 +107,13 @@ export async function updateCredemtialsUser(id:number, userName:string, userEmai
 
   const updateCredential = {
     id,
-    userName:userName,
-    userEmail:userEmail,
-    userPassword:hashedPassword,
-    token: this_crendential?.token!,
+    nombres, 
+    apellidos, 
+    telefono,
+    userName,
+    userEmail,
+    userPassword: userPasswordMod ? userPasswordMod : hashedPassword,
+    token: token,
     userStatus: this_crendential?.userStatus!,
     create_at: this_crendential?.create_at!,
     delete_at: this_crendential?.delete_at!,
@@ -116,12 +125,12 @@ export async function updateCredemtialsUser(id:number, userName:string, userEmai
 };
 
 // Borrando Usuario;
-export async function deleteCrential(id:number, userEmail:string, userName:string, userPassword:string, token:string, userStatus:boolean, create_at:string,delete_at:string, update_at:string):Promise<CredentialUser | null>{
+export async function deleteCrential(id:number,nombres:string,apellidos:string,telefono:string, userEmail:string, userName:string, userPassword:string, token:string, userStatus:boolean, create_at:string,delete_at:string, update_at:string):Promise<CredentialUser | null>{
   const credentials = await readCredentialUser();
   const credentialIndex = credentials.findIndex((credential)=> credential.id === id);
   if(credentialIndex === -1) return null;
 
-  const deleteCredential: CredentialUser = {id,userEmail,userName,userPassword,token,userStatus,create_at,delete_at,update_at};
+  const deleteCredential: CredentialUser = {id, nombres, apellidos,telefono,userEmail,userName,userPassword,token,userStatus,create_at,delete_at,update_at};
   credentials[credentialIndex] = deleteCredential;
   await writeCredentials(credentials);
   return deleteCredential;

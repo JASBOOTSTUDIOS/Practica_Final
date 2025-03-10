@@ -20,7 +20,7 @@ export async function getUserByIdModel(req:Request, res: Response){
     const user = await getUserById(id);
     if(!user){res.status(401).json({smg:"Error al obtener datos del usario"}); return;}
     
-    res.status(200).json({msg:"Solicitud exitosa",users:user});
+    res.status(200).json({msg:"Solicitud exitosa",user});
 }
 
 export async function createUserModel(req:Request, res: Response){

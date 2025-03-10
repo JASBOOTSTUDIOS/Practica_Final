@@ -12,5 +12,19 @@
     "delete_at": "",
     "update_at": "Fri Feb 28 2025 22:18:59 GMT-0400 (Atlantic Standard Time)",
     "create_at": "Fri Feb 28 2025 19:59:02 GMT-0400 (hora estándar del Atlántico)"
+  },
+  {
+    "id": 1,
+    "nombres": "Santiago Wilfredo",
+    "apellidos": "Lara Fermin",
+    "genero": "Masculino",
+    "edad": 52,
+    "cedula": "40235545854",
+    "telefono": "8095564582",
+    "fechaDeNacimiento": "06/07/1987",
+    "userStatus": true,
+    "delete_at": "",
+    "update_at": "Fri Feb 28 2025 22:18:59 GMT-0400 (Atlantic Standard Time)",
+    "create_at": "Fri Feb 28 2025 19:59:02 GMT-0400 (hora estándar del Atlántico)"
   }
 ]

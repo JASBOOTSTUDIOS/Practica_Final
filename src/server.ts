@@ -4,6 +4,7 @@ import cors from "cors";
 import route from "./routes/authRoutes";
 import userRoter from "./routes/userRouter";
 import viewsRouter from "./routes";
+import { PORT_SERVER } from "../ENV";
 
 dotenv.config();
 
@@ -14,9 +15,9 @@ app.use(cors());
 // Rutas.
 app.use("/users", userRoter);
 app.use("/", route);
-// app.use("/views", viewsRouter);
+app.use("/views", viewsRouter);
 
-const PORT = process.env.PORT_SERVE || 3002;
+const PORT = PORT_SERVER() || 3002;
 app.listen(PORT, () => {
   console.log(`API Corriendo en el puerto http://localhost:${PORT}`);
 });

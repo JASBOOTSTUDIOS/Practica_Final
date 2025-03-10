@@ -21,16 +21,28 @@ export async function Login(req: AuthRequest, res: Response) {
       res.status(400).json({ msg: "Usuario no encontrado" });
       return;
     }
+    // const a = bcrypt
     const isMatch = await bcrypt.compare(
       userPassword,  
       comparePass.userPassword
     );
+
     if (!isMatch) {res.status(400).json({ msg: "Usuario y o Contraseña Incorrecta." }); return;};
-    const token = generatteToken(comparePass?.id!);
+    const token = generatteToken(comparePass.id, comparePass.nombres, comparePass.apellidos,comparePass.telefono,comparePass.userName,comparePass.userEmail);
+    await updateCredemtialsUser(
+      comparePass.id, 
+      comparePass.nombres, 
+      comparePass.apellidos,
+      comparePass.telefono,
+      userName,
+      comparePass.userEmail,
+      comparePass.userPassword,
+      token,
+      comparePass.userPassword
+    );
     res.status(200).json({
       verifiData:req.user,
-      // msg: "User Logueado con exito!",
-      id:comparePass?.id,
+      msg: "User Logueado con exito!",
       token: token,
     });
     return;
@@ -63,7 +75,7 @@ export async function getCredentialsUserByIdModel(req: Request, res: Response){
 }
 
 export async function createCredentialsUserModel(req: Request, res: Response){
-  const { userName, userEmail, userPassword } = req.body;
+  const { nombres, apellidos, telefono, userName, userEmail, userPassword } = req.body;
   const credentialsByUserName = await getCredentialsUserByUserName(userName);
   const credentialsByUserEmail = await getCredentialsUserByEmail(userEmail);
   if (credentialsByUserName) {
@@ -72,7 +84,7 @@ export async function createCredentialsUserModel(req: Request, res: Response){
   } else if (credentialsByUserEmail) {
     res.status(409).json({ msg: "Este Email Ya Existe." });
     return;
-  } else if (!userName || !userEmail || !userPassword) {
+  } else if (!userName || !nombres || !apellidos || !telefono || !userEmail || !userPassword) {
     res
       .status(400)
       .json({
@@ -81,6 +93,9 @@ export async function createCredentialsUserModel(req: Request, res: Response){
       return;
   } else {
     const newCredentialsUser = await createCredentialsUser(
+      nombres, 
+      apellidos, 
+      telefono,
       userName,
       userEmail,
       userPassword
@@ -90,12 +105,12 @@ export async function createCredentialsUserModel(req: Request, res: Response){
   }
 }
 
-export async function updateCredentialsUserModel(req: Request, res: Response) {
-  const { id, userName, userEmail, userPassword } = req.body;
+export async function updateCredentialsUserModel(req: Request, res: Response){
+  const { id, nombres, apellidos, telefono, userName, userEmail, userPassword } = req.body;
   const credentialsById = await getCredentialsUserById(id);
   if (!credentialsById) {
     res.status(400).json({ msg: "Usuario No Encontrado." });
-  } else if (!id || !userName || !userEmail || !userPassword) {
+  } else if (!id || !nombres || !apellidos || !telefono || !userName || !userEmail || !userPassword){
     res
       .status(400)
       .json({
@@ -104,9 +119,13 @@ export async function updateCredentialsUserModel(req: Request, res: Response) {
   } else {
     const newUpdateCredentialsUser = await updateCredemtialsUser(
       id,
+      nombres,
+      apellidos,
+      telefono,
       userName,
       userEmail,
-      userPassword
+      userPassword,
+      ""
     );
     res.status(201).json(newUpdateCredentialsUser);
   }
